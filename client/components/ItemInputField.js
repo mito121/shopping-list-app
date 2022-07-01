@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default function TaskInputField(props) {
-  const [task, setTask] = useState();
+export default function ItemInputField(props) {
+  const [item, setItem] = useState();
 
-  const handleAddTask = (value) => {
-    props.addTask(value);
-    setTask(null);
+  const handleAddItem = (value) => {
+    props.addItem(value);
+    setItem(null);
   };
 
   return (
@@ -23,12 +23,12 @@ export default function TaskInputField(props) {
     >
       <TextInput
         style={styles.inputField}
-        value={task}
-        onChangeText={(text) => setTask(text)}
-        placeholder={"Add a task"}
+        value={item}
+        onChangeText={(text) => setItem(text)}
+        placeholder={"Add an item"}
         placeholderTextColor={"#fff"}
       />
-      <TouchableOpacity onPress={() => handleAddTask(task)}>
+      <TouchableOpacity onPress={() => handleAddItem(item)}>
         <View style={styles.button}>
           <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
         </View>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 10,
+    marginBottom: 10,
     // position: "absolute",
     // bottom: 20,
   },

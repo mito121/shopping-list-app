@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import { Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
-import TaskInputField from "./components/TaskInputField";
-import TaskItem from "./components/TaskItem";
+import ItemInputField from "./components/ItemInputField";
+import Item from "./components/Item";
 
 export default function App() {
-  const [tasks, setTasks] = useState([]);
+  const [items, setItems] = useState([]);
 
-  const addTask = (task) => {
-    if (task == null) return;
-    setTasks([...tasks, task]);
+  const addItem = (item) => {
+    if (item == null) return;
+    setItems([...items, item]);
     Keyboard.dismiss();
   };
 
-  const deleteTask = (deleteIndex) => {
-    setTasks(tasks.filter((value, index) => index != deleteIndex));
+  const deleteItem = (deleteIndex) => {
+    setItems(items.filter((value, index) => index != deleteIndex));
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Indkøbsliste</Text>
-      <TaskInputField addTask={addTask} />
+      <ItemInputField addItem={addItem} />
       <ScrollView style={styles.scrollView}>
-        {tasks.map((task, index) => {
+        {items.map((item, index) => {
           return (
-            <View key={index} style={styles.taskContainer}>
-              <TaskItem
+            <View key={index} style={styles.itemContainer}>
+              <Item
                 index={index + 1}
-                task={task}
+                item={item}
                 color={"#fff"}
-                deleteTask={() => deleteTask(index)}
+                deleteItem={() => deleteItem(index)}
               />
             </View>
           );
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   scrollView: {
     marginBottom: 70,
   },
-  taskContainer: {
+  itemContainer: {
     marginTop: 20,
   },
 });
