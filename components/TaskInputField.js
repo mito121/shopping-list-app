@@ -25,12 +25,12 @@ export default function TaskInputField(props) {
         style={styles.inputField}
         value={task}
         onChangeText={(text) => setTask(text)}
-        placeholder={"Write a task"}
+        placeholder={"Add a task"}
         placeholderTextColor={"#fff"}
       />
       <TouchableOpacity onPress={() => handleAddTask(task)}>
         <View style={styles.button}>
-          <MaterialIcons name="keyboard-arrow-up" size={24} color="black" />
+          <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
         </View>
       </TouchableOpacity>
     </KeyboardAvoidingView>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 10,
-    position: "absolute",
-    bottom: 20,
+    // position: "absolute",
+    // bottom: 20,
   },
   inputField: {
     color: "#fff",

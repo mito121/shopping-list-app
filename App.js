@@ -18,7 +18,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>TODO LIST</Text>
+      <Text style={styles.heading}>Indkøbsliste</Text>
+      <TaskInputField addTask={addTask} />
       <ScrollView style={styles.scrollView}>
         {tasks.map((task, index) => {
           return (
@@ -26,13 +27,13 @@ export default function App() {
               <TaskItem
                 index={index + 1}
                 task={task}
+                color={"#fff"}
                 deleteTask={() => deleteTask(index)}
               />
             </View>
           );
         })}
       </ScrollView>
-      <TaskInputField addTask={addTask} />
     </View>
   );
 }
@@ -44,9 +45,9 @@ const styles = StyleSheet.create({
   },
   heading: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "600",
-    marginTop: 30,
+    marginTop: 50,
     marginBottom: 10,
     marginLeft: 20,
   },
