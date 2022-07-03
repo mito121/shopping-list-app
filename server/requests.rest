@@ -1,44 +1,34 @@
-## Get all users
-GET http://localhost:3000/users
+## Get all items
+GET http://localhost:3000/items
 
 ###
 
-## Get single user
-GET http://localhost:3000/users/2
+## Get single item
+GET http://localhost:3000/items/62c1e45811fe94021c589ace
 
 ###
 
-## Create user
-POST http://localhost:3000/users
+## Create item
+POST http://localhost:3000/items
 Content-Type: application/json
 
 {
-    "name": "Janus",
-    "email": "janus@mail.dk"
+    "name": "saks",
+    "color": "#666"
 }
 
 ###
 
-## Update user
-PUT http://localhost:3000/users/1
+## Update item
+PATCH http://localhost:3000/items/62c1e568a94c5762e78eacb0
 Content-Type: application/json
 
 {
-    "id": 1,
-    "name": "Lars",
-    "email": "lars@mail.dk"
+    "name": "kniv",
+    "color": "#999"
 }
 
 ###
 
-PATCH http://localhost:3000/users/1
-Content-Type: application/json
-
-{
-    "name": "Lone"
-}
-
-###
-
-## Delete user
-DELETE http://localhost:3000/users/2
+## Delete item
+DELETE http://localhost:3000/items/62c1e568a94c5762e78eacb0
