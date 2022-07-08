@@ -14,7 +14,8 @@ Content-Type: application/json
 
 {
     "name": "saks",
-    "color": "#666"
+    "color": "#666",
+    "listId": ""
 }
 
 ###
@@ -31,4 +32,4 @@ Content-Type: application/json
 ###
 
 ## Delete item
-DELETE http://localhost:3000/items/62c1e568a94c5762e78eacb0
+DELETE http://localhost:3000/items/62c2b96a49d32cf5c665d920

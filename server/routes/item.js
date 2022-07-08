@@ -59,7 +59,7 @@ router.delete("/:id", getItem, async (req, res) => {
   try {
     let removedId = res.item._id.toString();
     await res.item.remove();
-    res.status(200).json({ message: "Item deleted.", id: removedId });
+    res.status(200).json({ message: "Item removed", id: removedId });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

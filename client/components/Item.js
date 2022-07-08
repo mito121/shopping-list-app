@@ -22,7 +22,7 @@ export default Item = (props) => {
         {/* <Text style={styles.index}>{props.index}</Text> */}
       </View>
       <View style={styles.itemContainer}>
-        <Text style={styles.item}>{props.item}</Text>
+        <Text style={styles.item}>{props.name}</Text>
         <TouchableOpacity onPress={() => props.deleteItem()}>
           <MaterialIcons
             style={styles.delete}
