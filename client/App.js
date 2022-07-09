@@ -44,13 +44,25 @@ export default function App() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.item) setItems([...items, res.item]);
+        if (!res.item) return console.log("Error adding new item.");
+        setItems([...items, res.item]);
       });
     Keyboard.dismiss();
   };
 
-  const deleteItem = (deleteId) => {
-    setItems(items.filter((value) => value.id != deleteId));
+  const deleteItem = (id) => {
+    fetch(`http://10.0.2.2:3000/items/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "access-control-allow-origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("delete res", res);
+        setItems(items.filter((item) => item._id != res.id));
+      });
   };
 
   return (
@@ -62,10 +74,10 @@ export default function App() {
           return (
             <View key={index} style={styles.itemContainer}>
               <Item
-                id={item.id}
+                id={item._id}
                 name={item.name}
                 color={item.color}
-                deleteItem={() => deleteItem(item.id)}
+                deleteItem={() => deleteItem(item._id)}
               />
             </View>
           );

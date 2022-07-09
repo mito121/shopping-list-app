@@ -57,7 +57,7 @@ router.patch("/:id", getItem, async (req, res) => {
 
 router.delete("/:id", getItem, async (req, res) => {
   try {
-    let removedId = res.item._id.toString();
+    let removedId = res.item._id;
     await res.item.remove();
     res.status(200).json({ message: "Item removed", id: removedId });
   } catch (err) {
