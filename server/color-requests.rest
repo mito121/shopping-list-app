@@ -1,0 +1,33 @@
+## Get all colors
+GET http://localhost:3000/colors
+
+###
+
+## Get single color
+GET http://localhost:3000/colors/62c1e45811fe94021c589ace
+
+###
+
+## Create color
+POST http://localhost:3000/colors
+Content-Type: application/json
+
+{
+    "color": "#aea"
+}
+
+###
+
+## Update color
+PATCH http://localhost:3000/colors/62c1e568a94c5762e78eacb0
+Content-Type: application/json
+
+{
+    "name": "kniv",
+    "color": "#999"
+}
+
+###
+
+## Delete color
+DELETE http://localhost:3000/colors/62c2b96a49d32cf5c665d920

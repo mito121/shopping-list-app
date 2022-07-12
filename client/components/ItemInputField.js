@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   TextInput,
+  Text,
   TouchableOpacity,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -25,8 +26,14 @@ export default function ItemInputField(props) {
         style={styles.inputField}
         value={item}
         onChangeText={(text) => setItem(text)}
-        placeholder={"Add an item"}
-        placeholderTextColor={"#fff"}
+        placeholder={"+ Ny vare"}
+        placeholderTextColor={"#666"}
+        onFocus={() => {
+          props.addingItem(true);
+        }}
+        onBlur={() => {
+          props.addingItem(false);
+        }}
       />
       <TouchableOpacity onPress={() => handleAddItem(item)}>
         <View style={styles.button}>
@@ -40,7 +47,7 @@ export default function ItemInputField(props) {
 const styles = StyleSheet.create({
   container: {
     borderColor: "#fff",
-    backgroundColor: "#3E3364",
+    backgroundColor: "#eee",
     borderWidth: 1,
     marginHorizontal: 20,
     borderRadius: 12,
@@ -53,7 +60,7 @@ const styles = StyleSheet.create({
     // bottom: 20,
   },
   inputField: {
-    color: "#fff",
+    color: "#666",
     height: 50,
     flex: 1,
   },

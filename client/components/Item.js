@@ -8,8 +8,8 @@ export default Item = (props) => {
       backgroundColor: props.color || "#3E3364",
       borderBottomRightRadius: 0,
       borderTopRightRadius: 0,
-      borderBottomLeftRadius: 12,
-      borderTopLeftRadius: 12,
+      borderBottomLeftRadius: 10,
+      borderTopLeftRadius: 10,
       // marginRight: 10,
       width: 50,
       height: 50,
@@ -28,7 +28,7 @@ export default Item = (props) => {
             style={styles.delete}
             name="delete"
             size={18}
-            color="#fff"
+            color="#666"
           />
         </TouchableOpacity>
       </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   indexContainer: {
-    backgroundColor: "#3E3364",
+    backgroundColor: "#eee",
     // borderRadius: 12,
     // borderBottomRightRadius: 0,
     // borderTopRightRadius: 0,
@@ -58,10 +58,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   itemContainer: {
-    backgroundColor: "#3E3364",
+    backgroundColor: "#eee",
     // borderRadius: 12,
-    borderBottomRightRadius: 12,
-    borderTopRightRadius: 12,
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
     flexDirection: "row",
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     minHeight: 50,
   },
   item: {
-    color: "#fff",
+    // color: "#fff",
     width: "90%",
     fontSize: 16,
   },
