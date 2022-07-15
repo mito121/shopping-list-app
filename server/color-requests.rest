@@ -13,7 +13,7 @@ POST http://localhost:3000/colors
 Content-Type: application/json
 
 {
-    "color": "#aea"
+    "color": "#afa"
 }
 
 ###
@@ -30,4 +30,4 @@ Content-Type: application/json
 ###
 
 ## Delete color
-DELETE http://localhost:3000/colors/62c2b96a49d32cf5c665d920
+DELETE http://localhost:3000/colors/62d05c07aa0ced747641fdaf

@@ -43,6 +43,14 @@ db.once("open", () => console.log("Successfully connected to database."));
 const itemRouter = require("./routes/item");
 app.use("/items", itemRouter);
 
+/* ACtive items */
+const activeItemRouter = require("./routes/activeItem");
+app.use("/active-items", activeItemRouter);
+
+/* Removed items */
+const removedItemRouter = require("./routes/removedItem");
+app.use("/removed-items", removedItemRouter);
+
 /* Colors */
 const colorRouter = require("./routes/color.js");
 app.use("/colors", colorRouter);

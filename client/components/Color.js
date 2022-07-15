@@ -7,7 +7,7 @@ export default function Color(props) {
     color: {
       height: 75,
       width: 75,
-      backgroundColor: props.color,
+      backgroundColor: props.color || "#eee",
       borderRadius: 5,
       marginRight: 15,
       alignItems: "center",

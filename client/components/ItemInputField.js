@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -12,10 +12,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function ItemInputField(props) {
   const [item, setItem] = useState();
 
+  const input = useRef(null);
+
   const handleAddItem = (value) => {
     props.addItem(value);
     setItem(null);
   };
+
+  useEffect(() => {
+    input.current.focus();
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -28,9 +34,10 @@ export default function ItemInputField(props) {
         onChangeText={(text) => setItem(text)}
         placeholder={"+ Ny vare"}
         placeholderTextColor={"#666"}
-        onFocus={() => {
-          props.addingItem(true);
-        }}
+        ref={input}
+        // onFocus={() => {
+        //   props.addingItem(true);
+        // }}
         onBlur={() => {
           props.addingItem(false);
         }}
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     backgroundColor: "#eee",
     borderWidth: 1,
-    marginHorizontal: 20,
+    // marginHorizontal: 20,
     borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
