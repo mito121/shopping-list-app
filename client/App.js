@@ -82,6 +82,7 @@ export default function App() {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         setItems(items.filter((item) => item._id != res.id));
 
         /* Add item to removed items */
@@ -111,6 +112,7 @@ export default function App() {
   }, [itemSearch]);
 
   const addingItem = (bool) => {
+    setItemSearch("");
     setSelectedColor("");
     setCurrentlyAddingItem(bool);
   };
@@ -183,7 +185,22 @@ export default function App() {
   };
 
   const clickSuggestedItem = (item) => {
-    console.log("frol", item);
+    fetch("http://10.0.2.2:3000/active-items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "access-control-allow-origin": "*",
+      },
+      body: JSON.stringify(item),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        addingItem(false);
+
+        if (!res.item) return console.log("Error adding new item.");
+        if (res.firstTimeItem) setAllItems([...allItems, res.item]);
+        setItems([...items, res.item]);
+      });
   };
 
   const itemSuggestions = () => {
@@ -242,31 +259,6 @@ export default function App() {
 
           {/* Item suggestions */}
           {itemSuggestions()}
-          {/* <View style={styles.itemSuggestions}>
-            <Text>Item suggestions</Text>
-            {suggestedItems.map((item, index) => {
-              return <Text key={index}>{item.name}</Text>;
-            })}
-          </View> */}
-
-          {/* Pick color for new item */}
-          {/* <View style={styles.newItem}>
-            <Text>Vælg farve</Text>
-            <View style={styles.colorContainer}>
-              {colors.map((color) => {
-                return (
-                  <View key={color._id}>
-                    <Color
-                      selected={selectedColor === color.color ? true : false}
-                      id={color._id}
-                      color={color.color}
-                      selectColor={() => selectColor(color.color)}
-                    />
-                  </View>
-                );
-              })}
-            </View>
-          </View> */}
         </View>
       </TouchableWithoutFeedback>
     );
