@@ -6,20 +6,25 @@ import {
   Text,
   View,
   Button,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 import ItemInputField from "./components/ItemInputField";
 import Item from "./components/Item";
 import ActiveItem from "./components/ActiveItem";
 import RemovedItem from "./components/RemovedItem";
+import SuggestedItem from "./components/SuggestedItem";
 import Color from "./components/Color";
 
 export default function App() {
   const [items, setItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
+  const [suggestedItems, setSuggestedItems] = useState([]);
   const [colors, setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState("");
   const [currentlyAddingItem, setCurrentlyAddingItem] = useState(false);
+  const [itemSearch, setItemSearch] = useState("");
   /* Active items */
   const getItems = () => {
     fetch("http://10.0.2.2:3000/active-items", {
@@ -96,7 +101,17 @@ export default function App() {
       });
   };
 
+  const itemInputVal = (val) => {
+    setItemSearch(val);
+  };
+
+  useEffect(() => {
+    const results = allItems.filter((item) => item.name.includes(itemSearch));
+    setSuggestedItems(results);
+  }, [itemSearch]);
+
   const addingItem = (bool) => {
+    setSelectedColor("");
     setCurrentlyAddingItem(bool);
   };
 
@@ -167,16 +182,16 @@ export default function App() {
     setSelectedColor(color);
   };
 
-  const suggestionWindow = () => {
-    if (!currentlyAddingItem) return;
-    return (
-      <View style={styles.focusedWrapper}>
-        <ItemInputField addItem={addItem} addingItem={addingItem} />
+  const clickSuggestedItem = (item) => {
+    console.log("frol", item);
+  };
 
-        {/* <View style={styles.itemSuggestions}>
-          <Text>Existing items</Text>
-        </View> */}
-        <View style={styles.newItem} onPress={() => console.log("frol")}>
+  const itemSuggestions = () => {
+    if (itemSearch.length <= 0) return;
+
+    if (!suggestedItems.length > 0)
+      return (
+        <View style={styles.newItem}>
           <Text>Vælg farve</Text>
           <View style={styles.colorContainer}>
             {colors.map((color) => {
@@ -193,7 +208,67 @@ export default function App() {
             })}
           </View>
         </View>
-      </View>
+      );
+
+    if (suggestedItems.length > 0)
+      return (
+        <View style={styles.itemSuggestions}>
+          {suggestedItems.map((item, index) => {
+            return (
+              <SuggestedItem
+                key={index}
+                id={item.id}
+                name={item.name}
+                color={item.color}
+                press={() => clickSuggestedItem(item)}
+              />
+            );
+          })}
+        </View>
+      );
+  };
+
+  const suggestionWindow = () => {
+    if (!currentlyAddingItem) return;
+
+    return (
+      <TouchableWithoutFeedback onPress={() => addingItem(false)}>
+        <View style={styles.focusedWrapper}>
+          <ItemInputField
+            addItem={addItem}
+            addingItem={addingItem}
+            inputChange={itemInputVal}
+          />
+
+          {/* Item suggestions */}
+          {itemSuggestions()}
+          {/* <View style={styles.itemSuggestions}>
+            <Text>Item suggestions</Text>
+            {suggestedItems.map((item, index) => {
+              return <Text key={index}>{item.name}</Text>;
+            })}
+          </View> */}
+
+          {/* Pick color for new item */}
+          {/* <View style={styles.newItem}>
+            <Text>Vælg farve</Text>
+            <View style={styles.colorContainer}>
+              {colors.map((color) => {
+                return (
+                  <View key={color._id}>
+                    <Color
+                      selected={selectedColor === color.color ? true : false}
+                      id={color._id}
+                      color={color.color}
+                      selectColor={() => selectColor(color.color)}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+          </View> */}
+        </View>
+      </TouchableWithoutFeedback>
     );
   };
 
@@ -224,7 +299,17 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.heading}>Indkøbsliste</Text>
       {/* <ItemInputField addItem={addItem} addingItem={addingItem} /> */}
-      <Button title="Lol" onPress={() => addingItem(true)} />
+      {/* <Button
+        title="+ Ny vare"
+        style={styles.newItemButton}
+        onPress={() => addingItem(true)}
+      /> */}
+
+      <TouchableOpacity onPress={() => addingItem(true)}>
+        <View style={styles.newItemButton}>
+          <Text>+ Ny vare</Text>
+        </View>
+      </TouchableOpacity>
 
       {suggestionWindow()}
       <ScrollView style={styles.scrollView}>
@@ -295,18 +380,33 @@ const styles = StyleSheet.create({
   focusedWrapper: {
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 50,
+    paddingTop: 95,
     height: "100%",
     width: "100%",
     position: "absolute",
     top: 0,
     left: 0,
-    backgroundColor: "rgba(0,0,0,.3)",
+    backgroundColor: "rgba(255,255,255,.95)",
     zIndex: 1,
   },
   colorContainer: {
     marginTop: 15,
     flexDirection: "row",
     flex: 1,
+  },
+  newItemButton: {
+    borderColor: "#fff",
+    backgroundColor: "#eee",
+    borderWidth: 1,
+    borderRadius: 12,
+    marginHorizontal: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    color: "#666",
+  },
+  itemSuggestions: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });

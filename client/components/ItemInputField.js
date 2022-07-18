@@ -38,9 +38,8 @@ export default function ItemInputField(props) {
         // onFocus={() => {
         //   props.addingItem(true);
         // }}
-        onBlur={() => {
-          props.addingItem(false);
-        }}
+        onBlur={() => props.addingItem(false)}
+        onTextInput={() => props.inputChange(item)}
       />
       <TouchableOpacity onPress={() => handleAddItem(item)}>
         <View style={styles.button}>
