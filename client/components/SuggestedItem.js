@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 export default Item = (props) => {
   const styles = StyleSheet.create({
@@ -19,10 +20,18 @@ export default Item = (props) => {
       fontWeight: "700",
       // fontSize: 16
     },
+    check: {
+      margin: 0,
+      paddingRight: 5
+    }
   });
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => props.press()}>
+      {props.isActive === true ? (
+        <AntDesign name="check" size={18} color="#fff" style={styles.check} />
+      ) : null}
+      {/* {isActive()} */}
       <Text style={styles.text}>{props.name}</Text>
     </TouchableOpacity>
   );

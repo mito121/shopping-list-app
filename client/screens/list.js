@@ -49,7 +49,7 @@ export default function List() {
   }, []);
 
   const addItem = (item) => {
-    if (item == null) return;
+    if (item == null || item.length == 0) return addingItem(false);
     fetch("http://10.0.2.2:3000/active-items", {
       method: "POST",
       headers: {
@@ -64,7 +64,7 @@ export default function List() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (!res.item) return console.log("Error adding new item.");
+        if (!res.item) return console.log("Error adding item.");
         if (res.firstTimeItem) setAllItems([...allItems, res.item]);
         setItems([...items, res.item]);
       });
@@ -195,12 +195,22 @@ export default function List() {
     })
       .then((res) => res.json())
       .then((res) => {
-        addingItem(false);
+        // addingItem(false);
 
         if (!res.item) return console.log("Error adding new item.");
         if (res.firstTimeItem) setAllItems([...allItems, res.item]);
         setItems([...items, res.item]);
       });
+  };
+
+  const containsObject = (obj, list) => {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i]._id == obj._id) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const itemSuggestions = () => {
@@ -238,6 +248,7 @@ export default function List() {
                 name={item.name}
                 color={item.color}
                 press={() => clickSuggestedItem(item)}
+                isActive={containsObject(item, items)}
               />
             );
           })}
