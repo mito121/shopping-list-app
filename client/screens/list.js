@@ -15,8 +15,9 @@ import ActiveItem from "../components/ActiveItem";
 import RemovedItem from "../components/RemovedItem";
 import SuggestedItem from "../components/SuggestedItem";
 import Color from "../components/Color";
+import { Feather } from "@expo/vector-icons";
 
-export default function List() {
+export default function List({ navigation }) {
   const [items, setItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
@@ -195,7 +196,7 @@ export default function List() {
     })
       .then((res) => res.json())
       .then((res) => {
-        // addingItem(false);
+        addingItem(false);
 
         if (!res.item) return console.log("Error adding new item.");
         if (res.firstTimeItem) setAllItems([...allItems, res.item]);
@@ -300,13 +301,15 @@ export default function List() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Indkøbsliste</Text>
-      {/* <ItemInputField addItem={addItem} addingItem={addingItem} /> */}
-      {/* <Button
-        title="+ Ny vare"
-        style={styles.newItemButton}
-        onPress={() => addingItem(true)}
-      /> */}
+      <View style={styles.head}>
+        <Text style={styles.heading}>Indkøbsliste</Text>
+        <Feather
+          name="book-open"
+          size={24}
+          color="black"
+          onPress={() => navigation.navigate("Items")}
+        />
+      </View>
 
       <TouchableOpacity onPress={() => addingItem(true)}>
         <View style={styles.newItemButton}>
@@ -344,16 +347,6 @@ export default function List() {
             </View>
           );
         })}
-
-        {/* All items */}
-        <Text>All items</Text>
-        {allItems.map((item, index) => {
-          return (
-            <View key={index}>
-              <Item id={item._id} name={item.name} color={item.color} />
-            </View>
-          );
-        })}
       </ScrollView>
     </View>
   );
@@ -364,15 +357,20 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     zIndex: 0,
+    marginTop: 35,
     // backgroundColor: "#1E1A3C",
+  },
+  head: {
+    marginHorizontal: 10,
+    marginVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   heading: {
     // color: "#fff",
     fontSize: 28,
     fontWeight: "600",
-    marginTop: 50,
-    marginBottom: 10,
-    marginLeft: 20,
   },
   scrollView: {
     marginBottom: 70,
