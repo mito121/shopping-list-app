@@ -196,11 +196,10 @@ export default function List({ navigation }) {
     })
       .then((res) => res.json())
       .then((res) => {
-        addingItem(false);
-
-        if (!res.item) return console.log("Error adding new item.");
+        if (!res.item) return;
         if (res.firstTimeItem) setAllItems([...allItems, res.item]);
         setItems([...items, res.item]);
+        addingItem(false);
       });
   };
 
