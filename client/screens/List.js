@@ -321,12 +321,13 @@ export default function List({ navigation }) {
         {/* Active items */}
         {items.map((item, index) => {
           return (
-            <View key={index} style={styles.itemContainer}>
+            <View key={index}>
               <ActiveItem
                 id={item._id}
                 name={item.name}
                 color={item.color}
                 removeItem={() => removeItem(item)}
+                underline={index === items.length - 1 ? false : true}
               />
             </View>
           );
@@ -357,7 +358,7 @@ const styles = StyleSheet.create({
     position: "relative",
     zIndex: 0,
     marginTop: 35,
-    // backgroundColor: "#1E1A3C",
+    backgroundColor: "#fff",
   },
   head: {
     marginHorizontal: 10,
@@ -372,15 +373,12 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   scrollView: {
-    marginBottom: 70,
-  },
-  itemContainer: {
-    marginTop: 20,
+    marginTop: 15,
   },
   focusedWrapper: {
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 95,
+    paddingTop: 78,
     height: "100%",
     width: "100%",
     position: "absolute",

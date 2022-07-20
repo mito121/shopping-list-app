@@ -3,24 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default Item = (props) => {
-  const Indexstyles = StyleSheet.create({
-    indexBox: {
-      backgroundColor: props.color || "#3E3364",
-      borderBottomRightRadius: 0,
-      borderTopRightRadius: 0,
-      borderBottomLeftRadius: 10,
-      borderTopLeftRadius: 10,
-      // marginRight: 10,
-      width: 50,
-      height: 50,
-    },
-  });
-
   return (
     <View style={styles.container}>
-      <View style={Indexstyles.indexBox}>
-        {/* <Text style={styles.index}>{props.index}</Text> */}
-      </View>
       <View style={styles.itemContainer}>
         <Text style={styles.item}>{props.name}</Text>
         <TouchableOpacity onPress={() => props.deleteRemovedItem()}>
@@ -39,7 +23,6 @@ export default Item = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    marginHorizontal: 20,
   },
   indexContainer: {
     backgroundColor: "#eee",
