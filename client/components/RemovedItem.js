@@ -6,7 +6,9 @@ export default Item = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.itemContainer}>
-        <Text style={styles.item}>{props.name}</Text>
+        <Text style={styles.item} onPress={() => props.reAddItem()}>
+          {props.name}
+        </Text>
         <TouchableOpacity onPress={() => props.deleteRemovedItem()}>
           <MaterialIcons
             style={styles.delete}
@@ -24,29 +26,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
   },
-  indexContainer: {
-    backgroundColor: "#eee",
-    // borderRadius: 12,
-    // borderBottomRightRadius: 0,
-    // borderTopRightRadius: 0,
-    // borderBottomLeftRadius: 12,
-    // borderTopLeftRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    width: 50,
-    height: 50,
-  },
   index: {
     color: "#fff",
     fontSize: 20,
   },
   itemContainer: {
-    backgroundColor: "#eee",
-    // borderRadius: 12,
-    borderBottomRightRadius: 10,
-    borderTopRightRadius: 10,
-    borderBottomLeftRadius: 0,
-    borderTopLeftRadius: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -59,6 +43,8 @@ const styles = StyleSheet.create({
     // color: "#fff",
     width: "90%",
     fontSize: 16,
+    fontStyle: "italic",
+    textDecorationLine: "line-through",
   },
   delete: {
     marginLeft: 10,

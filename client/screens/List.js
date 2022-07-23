@@ -163,6 +163,41 @@ export default function List({ navigation }) {
       });
   };
 
+  const reAddItem = (item) => {
+    fetch(`http://10.0.2.2:3000/removed-items/${item._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "access-control-allow-origin": "*",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setRemovedItems(removedItems.filter((item) => item._id != res.id));
+
+        /* Add item back to active list */
+        fetch(`http://10.0.2.2:3000/active-items/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "access-control-allow-origin": "*",
+          },
+          body: JSON.stringify({
+            name: item.name,
+            color: item.color,
+            listId: item.listId,
+          }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (!res.item) return console.log("Error adding item.");
+            if (res.firstTimeItem) setAllItems([...allItems, res.item]);
+            setItems([...items, res.item]);
+            updateSortedItems();
+          });
+      });
+  };
+
   /* Colors */
 
   const getColors = () => {
@@ -350,19 +385,21 @@ export default function List({ navigation }) {
         </View>
 
         {/* Removed items */}
-        <Text>Removed items</Text>
-        {removedItems.map((item, index) => {
-          return (
-            <View key={index} style={styles.itemContainer}>
-              <RemovedItem
-                id={item._id}
-                name={item.name}
-                color={item.color}
-                deleteRemovedItem={() => deleteRemovedItem(item)}
-              />
-            </View>
-          );
-        })}
+        <View style={styles.removedItems}>
+          {removedItems.map((item, index) => {
+            return (
+              <View key={index} style={styles.itemContainer}>
+                <RemovedItem
+                  id={item._id}
+                  name={item.name}
+                  color={item.color}
+                  deleteRemovedItem={() => deleteRemovedItem(item)}
+                  reAddItem={() => reAddItem(item)}
+                />
+              </View>
+            );
+          })}
+        </View>
       </ScrollView>
     </View>
   );
@@ -422,5 +459,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
+  },
+  activeItems: {
+    backgroundColor: "#fff",
+  },
+  removedItems: {
+    backgroundColor: "#eee",
   },
 });
