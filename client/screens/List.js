@@ -19,6 +19,7 @@ import { Feather } from "@expo/vector-icons";
 
 export default function List({ navigation }) {
   const [items, setItems] = useState([]);
+  const [sortedItems, setSortedItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [removedItems, setRemovedItems] = useState([]);
   const [suggestedItems, setSuggestedItems] = useState([]);
@@ -49,6 +50,10 @@ export default function List({ navigation }) {
     };
   }, []);
 
+  useEffect(() => {
+    updateSortedItems();
+  }, [items]);
+
   const addItem = (item) => {
     if (item == null || item.length == 0) return addingItem(false);
     fetch("http://10.0.2.2:3000/active-items", {
@@ -59,7 +64,7 @@ export default function List({ navigation }) {
       },
       body: JSON.stringify({
         name: item,
-        color: selectedColor || "#eee",
+        color: selectedColor || "#fff",
         listId: "1",
       }),
     })
@@ -68,6 +73,8 @@ export default function List({ navigation }) {
         if (!res.item) return console.log("Error adding item.");
         if (res.firstTimeItem) setAllItems([...allItems, res.item]);
         setItems([...items, res.item]);
+        /* Don't know why this must be here, but otherwise sortedItems is not updating correctly when adding first-time item */
+        updateSortedItems();
       });
     setSelectedColor(null);
     Keyboard.dismiss();
@@ -298,6 +305,13 @@ export default function List({ navigation }) {
     };
   }, []);
 
+  const updateSortedItems = () => {
+    const orderedItems = [...items].sort((a, b) =>
+      a.color > b.color ? -1 : 1
+    );
+    setSortedItems(orderedItems);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.head}>
@@ -318,20 +332,22 @@ export default function List({ navigation }) {
 
       {suggestionWindow()}
       <ScrollView style={styles.scrollView}>
-        {/* Active items */}
-        {items.map((item, index) => {
-          return (
-            <View key={index}>
-              <ActiveItem
-                id={item._id}
-                name={item.name}
-                color={item.color}
-                removeItem={() => removeItem(item)}
-                underline={index === items.length - 1 ? false : true}
-              />
-            </View>
-          );
-        })}
+        <View style={styles.activeItems}>
+          {/* Active items */}
+          {sortedItems.map((item, index) => {
+            return (
+              <View key={index}>
+                <ActiveItem
+                  id={item._id}
+                  name={item.name}
+                  color={item.color}
+                  removeItem={() => removeItem(item)}
+                  underline={index === items.length - 1 ? false : true}
+                />
+              </View>
+            );
+          })}
+        </View>
 
         {/* Removed items */}
         <Text>Removed items</Text>
